@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SK⁴ Apparels – Family Fashion Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --green:#1a6b4a;--green-light:#e8f5ee;--green-mid:#2d9b6f;--green-dark:#0f4530;
+  --gold:#c9973a;--gold-light:#fdf6e8;
+  --bg:#fafaf8;--white:#ffffff;--text:#1c1c1c;--muted:#6b7280;--border:#e5e5e0;
+  --radius:12px;--radius-lg:18px;--radius-xl:24px;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+  font-family:'DM Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.page{display:none;min-height:100vh;animation:fadeIn .3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TOP NAV ── */
+.topnav{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--green);letter-spacing:-0.5px;cursor:pointer}
+.logo span{color:var(--gold)}
+.nav-icons{display:flex;align-items:center;gap:16px}
+.nav-icon{background:none;border:none;cursor:pointer;position:relative;padding:4px;display:flex;align-items:center;justify-content:center}
+.nav-icon svg{width:22px;height:22px;stroke:var(--text);fill:none;stroke-width:1.8}
+.cart-badge{position:absolute;top:-2px;right:-2px;background:var(--green);color:#fff;font-size:9px;font-weight:600;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;display:none}
+.cart-badge.show{display:flex}
+.back-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);font-family:'DM Sans',sans-serif;padding:4px 0}
+.back-btn svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2}
+
+/* ── HOME PAGE ── */
+.hero{background:linear-gradient(135deg,var(--green-dark) 0%,var(--green) 60%,var(--green-mid) 100%);padding:36px 20px 40px;color:#fff;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.06)}
+.hero-tag{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,0.18);display:inline-block;padding:4px 12px;border-radius:20px;margin-bottom:12px}
+.hero h1{font-family:'Playfair Display',serif;font-size:32px;line-height:1.2;margin-bottom:8px}
+.hero h1 span{color:#f0c97a}
+.hero p{font-size:14px;opacity:.82;margin-bottom:20px;line-height:1.6}
+.hero-cta{background:#fff;color:var(--green);font-size:14px;font-weight:600;padding:11px 24px;border-radius:var(--radius);border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+.section-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin-bottom:4px}
+.section-sub{font-size:13px;color:var(--muted);margin-bottom:18px}
+
+/* categories grid */
+.categories{padding:28px 16px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cat-card{border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;position:relative;aspect-ratio:.85;transition:transform .2s}
+.cat-card:active{transform:scale(.97)}
+.cat-bg{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:background .2s}
+.cat-icon-wrap{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;background:rgba(255,255,255,0.9)}
+.cat-name{font-size:13px;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.3)}
+.cat-count{font-size:11px;color:rgba(255,255,255,0.8)}
+.kids-bg{background:linear-gradient(160deg,#ff9a9e,#fecfef)}
+.girls-bg{background:linear-gradient(160deg,#a18cd1,#fbc2eb)}
+.boys-bg{background:linear-gradient(160deg,#4facfe,#00f2fe)}
+.mens-bg{background:linear-gradient(160deg,#43e97b,#38f9d7)}
+.womens-bg{background:linear-gradient(160deg,#f093fb,#f5576c)}
+.all-bg{background:linear-gradient(160deg,#c9973a,#f5d67a)}
+
+/* offer banner */
+.offer-banner{margin:0 16px 24px;background:var(--gold-light);border:1.5px solid #e8c97a;border-radius:var(--radius-lg);padding:16px;display:flex;align-items:center;gap:12px}
+.offer-icon{font-size:28px}
+.offer-text strong{font-size:14px;color:var(--green-dark);display:block}
+.offer-text span{font-size:12px;color:var(--muted)}
+
+/* ── COLLECTION PAGE ── */
+.col-header{padding:16px 16px 8px;display:flex;align-items:center;justify-content:space-between}
+.filter-row{display:flex;gap:8px;padding:0 16px 16px;overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-chip{flex-shrink:0;padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);font-size:13px;font-weight:500;background:#fff;cursor:pointer;white-space:nowrap;transition:all .15s}
+.filter-chip.active{background:var(--green);color:#fff;border-color:var(--green)}
+
+.products-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 16px 120px}
+.prod-card{border-radius:var(--radius-lg);overflow:hidden;background:#fff;border:1px solid var(--border);cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative}
+.prod-card:active{transform:scale(.97)}
+.prod-img{width:100%;aspect-ratio:.9;object-fit:cover;display:block;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:48px;position:relative}
+.prod-img-wrap{position:relative}
+.wish-btn{position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.9);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:transform .15s}
+.wish-btn:active{transform:scale(.85)}
+.wish-btn.wished{background:#fff0f3}
+.oos-overlay{position:absolute;inset:0;background:rgba(255,255,255,0.7);display:flex;align-items:center;justify-content:center}
+.oos-tag{background:#e24b4a;color:#fff;font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px}
+.offer-tag{position:absolute;top:8px;left:8px;background:var(--green);color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:8px}
+.prod-info{padding:10px 12px 12px}
+.prod-name{font-size:13px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prod-price{display:flex;align-items:center;gap:6px}
+.price-now{font-size:15px;font-weight:700;color:var(--green-dark)}
+.price-old{font-size:12px;color:var(--muted);text-decoration:line-through}
+.price-off{font-size:11px;color:#e24b4a;font-weight:600}
+.prod-rating{display:flex;align-items:center;gap:3px;margin-top:4px}
+.stars{color:#f59e0b;font-size:11px}
+.rating-count{font-size:11px;color:var(--muted)}
+
+/* ── PRODUCT PAGE ── */
+.swiper-wrap{position:relative;background:#f5f5f0;overflow:hidden}
+.swiper-track{display:flex;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.swiper-slide{min-width:100%;aspect-ratio:.95;display:flex;align-items:center;justify-content:center;font-size:80px;background:var(--green-light)}
+.swiper-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.swiper-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.5);transition:all .2s;cursor:pointer}
+.swiper-dot.active{width:20px;border-radius:3px;background:#fff}
+.color-thumbs{display:flex;gap:10px;padding:14px 16px 8px;overflow-x:auto;scrollbar-width:none}
+.color-thumbs::-webkit-scrollbar{display:none}
+.color-thumb{width:52px;height:52px;border-radius:10px;border:2px solid transparent;overflow:hidden;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:var(--green-light);transition:border-color .15s}
+.color-thumb.active{border-color:var(--green)}
+
+.prod-detail{padding:16px 16px 0}
+.prod-detail-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:8px}
+.price-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.detail-price{font-size:26px;font-weight:700;color:var(--green-dark)}
+.detail-old{font-size:16px;color:var(--muted);text-decoration:line-through}
+.detail-off{background:#fff0f0;color:#e24b4a;font-size:12px;font-weight:700;padding:3px 8px;border-radius:6px}
+.offer-strip{background:var(--gold-light);border:1px solid #e8c97a;border-radius:var(--radius);padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--green-dark)}
+.offer-strip strong{color:var(--gold)}
+
+.detail-section{margin-bottom:20px}
+.detail-section h3{font-size:14px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.size-row{display:flex;gap:8px;flex-wrap:wrap}
+.size-pill{padding:8px 16px;border-radius:var(--radius);border:1.5px solid var(--border);font-size:14px;font-weight:500;cursor:pointer;background:#fff;transition:all .15s}
+.size-pill.active{border-color:var(--green);background:var(--green-light);color:var(--green-dark)}
+.size-pill.oos{opacity:.4;text-decoration:line-through;cursor:not-allowed}
+
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pay-opt{border:1.5px solid var(--border);border-radius:var(--radius);padding:10px;display:flex;align-items:center;gap:8px;cursor:pointer;background:#fff;transition:all .15s}
+.pay-opt.active{border-color:var(--green);background:var(--green-light)}
+.pay-opt span{font-size:13px;font-weight:500}
+.pay-icon{font-size:18px}
+
+.highlights-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.highlight-item{background:var(--green-light);border-radius:var(--radius);padding:12px}
+.hl-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.hl-value{font-size:14px;font-weight:600;color:var(--green-dark)}
+
+/* reviews */
+.review-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;margin-bottom:10px}
+.rev-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.rev-name{font-size:14px;font-weight:600}
+.rev-stars{color:#f59e0b;font-size:13px}
+.rev-text{font-size:13px;color:var(--muted);line-height:1.6}
+.rev-date{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* similar */
+.similar-row{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding:0 16px 16px}
+.similar-row::-webkit-scrollbar{display:none}
+.sim-card{min-width:130px;border-radius:var(--radius);overflow:hidden;background:#fff;border:1px solid var(--border);cursor:pointer;flex-shrink:0}
+.sim-img{width:100%;height:110px;display:flex;align-items:center;justify-content:center;font-size:36px;background:var(--green-light)}
+.sim-info{padding:8px}
+.sim-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sim-price{font-size:13px;font-weight:700;color:var(--green-dark)}
+
+/* sticky add to cart */
+.sticky-cart{position:fixed;bottom:0;left:0;right:0;z-index:200;background:#fff;border-top:1px solid var(--border);padding:12px 16px 20px;display:flex;gap:10px;box-shadow:0 -4px 20px rgba(0,0,0,0.1)}
+.sticky-cart.hidden{display:none}
+.btn-wish{flex:0 0 52px;height:52px;border-radius:var(--radius);border:1.5px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;transition:all .15s}
+.btn-wish.wished{background:#fff0f3;border-color:#fca5b8}
+.btn-cart{flex:1;height:52px;border-radius:var(--radius);border:none;background:var(--white);border:1.5px solid var(--green);color:var(--green);font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.btn-buy{flex:1.4;height:52px;border-radius:var(--radius);border:none;background:var(--green);color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
+.btn-buy:active{background:var(--green-dark)}
+
+/* ── CHECKOUT PAGES ── */
+.checkout-wrap{padding:16px 16px 100px}
+.step-bar{display:flex;align-items:center;gap:0;margin-bottom:24px}
+.step{display:flex;align-items:center;gap:6px;flex:1}
+.step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid var(--border);color:var(--muted);background:#fff;flex-shrink:0;transition:all .2s}
+.step-num.done{background:var(--green);border-color:var(--green);color:#fff}
+.step-num.active{border-color:var(--green);color:var(--green)}
+.step-label{font-size:11px;color:var(--muted);font-weight:500}
+.step-line{flex:1;height:2px;background:var(--border);margin:0 4px}
+.step-line.done{background:var(--green)}
+
+.form-group{margin-bottom:16px}
+.form-label{font-size:13px;font-weight:600;margin-bottom:6px;display:block;color:var(--text)}
+.form-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:'DM Sans',sans-serif;background:#fff;color:var(--text);outline:none;transition:border-color .15s}
+.form-input.invalid,.form-input[style*="e24b4a"]{border-color:#e24b4a !important}
+.form-input:focus{border-color:var(--green)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:16px}
+.section-card h3{font-size:15px;font-weight:600;margin-bottom:14px;color:var(--green-dark)}
+
+/* order summary */
+.order-item{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+.order-item:last-child{border-bottom:none}
+.order-thumb{width:52px;height:52px;border-radius:var(--radius);background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.order-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.order-meta{font-size:12px;color:var(--muted)}
+.order-price{font-size:14px;font-weight:700;color:var(--green-dark);margin-left:auto;flex-shrink:0}
+
+.price-breakdown{margin-top:12px}
+.price-row-item{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;color:var(--muted)}
+.price-row-item.total{font-size:16px;font-weight:700;color:var(--text);border-top:1px solid var(--border);margin-top:8px;padding-top:12px}
+
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+/* checkout payment options */
+.checkout-pay-opt{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;cursor:pointer;transition:all .15s}
+.checkout-pay-opt.active{border-color:var(--green);background:var(--green-light)}
+.checkout-pay-opt.active .pay-check{border-color:var(--green) !important}
+.checkout-pay-opt.active .pay-dot{background:var(--green) !important}
+
+/* confirm */
+.confirm-box{text-align:center;padding:40px 20px}
+.confirm-icon{width:72px;height:72px;border-radius:50%;background:var(--green-light);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:36px}
+.confirm-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--green-dark);margin-bottom:8px}
+.confirm-sub{font-size:14px;color:var(--muted);line-height:1.7}
+.confirm-id{background:var(--green-light);border-radius:var(--radius);padding:14px;margin:20px 0;font-size:13px}
+.confirm-id strong{color:var(--green-dark);font-size:16px;display:block;margin-bottom:4px}
+
+.primary-btn{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-lg);font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:10px;transition:background .15s}
+.primary-btn:active{background:var(--green-dark)}
+.secondary-btn{width:100%;padding:13px;background:#fff;color:var(--green);border:1.5px solid var(--green);border-radius:var(--radius-lg);font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+
+/* toast */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green-dark);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* cart badge fixed */
+.cart-count-text{font-size:12px;font-weight:600;color:var(--muted)}
+
+/* wishlist heart */
+.heart{display:inline-block;transition:transform .2s}
+.wished .heart{color:#e24b4a;transform:scale(1.15)}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ════════════════════════════ HOME PAGE ════════════════════════════ -->
+<div class="page active" id="page-home">
+  <div class="topnav">
+    <div class="logo" onclick="goHome()">SK<sup style="font-size:13px;vertical-align:super">4</sup><span> Apparels</span></div>
+    <div class="nav-icons">
+      <button class="nav-icon" onclick="goPage('page-wishlist')">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
+      <button class="nav-icon" onclick="goPage('page-cart')">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <div class="cart-badge" id="cartBadge">0</div>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-tag">New Collection 2025</div>
+    <h1>Style for <span>Every Age,</span><br>Every Occasion</h1>
+    <p>Kids to Adults — Find the perfect fit for your entire family at SK⁴ Apparels</p>
+    <button class="hero-cta" onclick="document.querySelector('.categories').scrollIntoView({behavior:'smooth'})">Shop Now →</button>
+  </div>
+
+  <div class="offer-banner">
+    <div class="offer-icon">🎉</div>
+    <div class="offer-text">
+      <strong>Up to 40% OFF on all categories!</strong>
+      <span>Limited time offer — Shop before stock runs out</span>
+    </div>
+  </div>
+
+  <div class="categories">
+    <div class="section-title">Shop by Category</div>
+    <div class="section-sub">Choose your family's style</div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="openCategory('Kids')">
+        <div class="cat-bg kids-bg"><div class="cat-icon-wrap">👶</div><div class="cat-name">Kids</div><div class="cat-count">24 items</div></div>
+      </div>
+      <div class="cat-card" onclick="openCategory('Girls')">
+        <div class="cat-bg girls-bg"><div class="cat-icon-wrap">👗</div><div class="cat-name">Girls</div><div class="cat-count">32 items</div></div>
+      </div>
+      <div class="cat-card" onclick="openCategory('Boys')">
+        <div class="cat-bg boys-bg"><div class="cat-icon-wrap">👦</div><div class="cat-name">Boys</div><div class="cat-count">28 items</div></div>
+      </div>
+      <div class="cat-card" onclick="openCategory('Mens')">
+        <div class="cat-bg mens-bg"><div class="cat-icon-wrap">👔</div><div class="cat-name">Mens</div><div class="cat-count">36 items</div></div>
+      </div>
+      <div class="cat-card" onclick="openCategory('Womens')">
+        <div class="cat-bg womens-bg"><div class="cat-icon-wrap">👘</div><div class="cat-name">Womens</div><div class="cat-count">42 items</div></div>
+      </div>
+      <div class="cat-card" onclick="openCategory('All')">
+        <div class="cat-bg all-bg"><div class="cat-icon-wrap">🛍️</div><div class="cat-name">All</div><div class="cat-count">162 items</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════ COLLECTION PAGE ════════════════════════════ -->
+<div class="page" id="page-collection">
+  <div class="topnav">
+    <button class="back-btn" onclick="goHome()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      <span id="colBackLabel">Home</span>
+    </button>
+    <div class="logo" onclick="goHome()">SK<sup style="font-size:13px;vertical-align:super">4</sup><span> Apparels</span></div>
+    <div class="nav-icons">
+      <button class="nav-icon" onclick="goPage('page-cart')">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <div class="cart-badge" id="cartBadge2">0</div>
+      </button>
+    </div>
+  </div>
+  <div class="col-header">
+    <div>
+      <div class="section-title" id="colTitle">Kids Collection</div>
+      <div class="section-sub" id="colSub">24 products</div>
+    </div>
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<!-- ════════════════════════════ PRODUCT PAGE ════════════════════════════ -->
+<div class="page" id="page-product">
+  <div class="topnav">
+    <button class="back-btn" onclick="goBack()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Back</span>
+    </button>
+    <div class="logo" onclick="goHome()">SK<sup style="font-size:13px;vertical-align:super">4</sup><span> Apparels</span></div>
+    <div class="nav-icons">
+      <button class="nav-icon" onclick="shareWA()">
+        <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      </button>
+      <button class="nav-icon" onclick="goPage('page-cart')">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <div class="cart-badge" id="cartBadge3">0</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- image swiper -->
+  <div class="swiper-wrap" id="swiperWrap">
+    <div class="swiper-track" id="swiperTrack"></div>
+    <div class="swiper-dots" id="swiperDots"></div>
+  </div>
+  <div class="color-thumbs" id="colorThumbs"></div>
+
+  <div class="prod-detail">
+    <div class="prod-detail-name" id="pdName"></div>
+    <div class="price-row">
+      <div class="detail-price" id="pdPrice"></div>
+      <div class="detail-old" id="pdOld"></div>
+      <div class="detail-off" id="pdOff"></div>
+    </div>
+    <div class="prod-rating" style="margin-bottom:12px">
+      <span class="stars" id="pdStars">★★★★★</span>
+      <span class="rating-count" id="pdRatingCount">(128 reviews)</span>
+    </div>
+    <!-- size -->
+    <div class="detail-section">
+      <h3>Select Size</h3>
+      <div class="size-row" id="pdSizes"></div>
+    </div>
+
+    <!-- highlights -->
+    <div class="detail-section">
+      <h3>Key Highlights</h3>
+      <div class="highlights-grid" id="pdHighlights"></div>
+    </div>
+
+    <!-- similar -->
+    <div class="detail-section" style="margin:0 -16px">
+      <h3 style="padding:0 16px 10px">Similar Products</h3>
+      <div class="similar-row" id="similarRow"></div>
+    </div>
+
+    <!-- reviews -->
+    <div class="detail-section" style="padding-bottom:120px">
+      <h3>Customer Reviews</h3>
+      <div id="reviewsWrap"></div>
+    </div>
+  </div>
+
+  <!-- sticky cart bar -->
+  <div class="sticky-cart" id="stickyCart">
+    <button class="btn-wish" id="stickyWish" onclick="toggleWish()"><span class="heart">🤍</span></button>
+    <button class="btn-cart" onclick="addToCart()">Add to Cart</button>
+    <button class="btn-buy" onclick="buyNow()">Buy Now →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════ CART PAGE ════════════════════════════ -->
+<div class="page" id="page-cart">
+  <div class="topnav">
+    <button class="back-btn" onclick="goBack()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Back</span>
+    </button>
+    <div class="logo" onclick="goHome()">SK<sup style="font-size:13px;vertical-align:super">4</sup><span> Apparels</span></div>
+  </div>
+  <div class="checkout-wrap">
+    <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:16px">Your Cart 🛒</div>
+    <div id="cartItems"></div>
+    <div id="cartEmpty" style="text-align:center;padding:40px;color:var(--muted);display:none">
+      <div style="font-size:48px;margin-bottom:12px">🛒</div>
+      <div style="font-size:16px;font-weight:600">Your cart is empty</div>
+      <div style="font-size:13px;margin-top:6px">Add some items to get started</div>
+      <button class="primary-btn" style="margin-top:20px;width:auto;padding:12px 28px" onclick="goHome()">Shop Now</button>
+    </div>
+    <div id="cartSummary"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════ CHECKOUT PAGE ════════════════════════════ -->
+<div class="page" id="page-checkout">
+  <div class="topnav">
+    <button class="back-btn" onclick="goPage('page-cart')">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Cart</span>
+    </button>
+    <div class="logo" onclick="goHome()">SK<sup style="font-size:13px;vertical-align:super">4</sup><span> Apparels</span></div>
+  </div>
+  <div class="checkout-wrap">
+
+    <!-- 4-step bar: Details → Shipping → Payment → Review -->
+    <div class="step-bar" style="margin-bottom:24px">
+      <div class="step"><div class="step-num active" id="s1">1</div><div class="step-label">Details</div></div>
+      <div class="step-line" id="sl1"></div>
+      <div class="step"><div class="step-num" id="s2">2</div><div class="step-label">Shipping</div></div>
+      <div class="step-line" id="sl2"></div>
+      <div class="step"><div class="step-num" id="s3">3</div><div class="step-label">Payment</div></div>
+      <div class="step-line" id="sl3"></div>
+      <div class="step"><div class="step-num" id="s4">4</div><div class="step-label">Review</div></div>
+    </div>
+
+    <!-- step 1: customer details -->
+    <div id="step1">
+      <div class="section-card">
+        <h3>Customer Details</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name <span style="color:#e24b4a">*</span></label>
+            <input class="form-input" id="fname" placeholder="Senthil" />
+            <div id="err-fname" style="display:none;font-size:12px;color:#e24b4a;margin-top:4px">⚠ First name is required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name <span style="color:#e24b4a">*</span></label>
+            <input class="form-input" id="lname" placeholder="Kumar" />
+            <div id="err-lname" style="display:none;font-size:12px;color:#e24b4a;margin-top:4px">⚠ Last name is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mobile Number <span style="color:#e24b4a">*</span></label>
+          <input class="form-input" id="fphone" placeholder="+91 98765 43210" type="tel" />
+          <div id="err-fphone" style="display:none;font-size:12px;color:#e24b4a;margin-top:4px">⚠ Valid 10-digit mobile number is required</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email <span style="font-size:11px;color:var(--muted);font-weight:400">(optional)</span></label>
+          <input class="form-input" id="femail" placeholder="you@email.com" type="email" />
+        </div>
+      </div>
+      <button class="primary-btn" onclick="validateStep1()">Continue to Shipping →</button>
+    </div>
+
+    <!-- step 2: shipping -->
+    <div id="step2" style="display:none">
+      <div class="section-card">
+        <h3>Delivery Address</h3>
+        <div class="form-group">
+          <label class="form-label">Door No & Street <span style="color:#e24b4a">*</span></label>
+          <input class="form-input" id="faddr1" placeholder="12, Gandhi Nagar Street" />
+          <div id="err-faddr1" style="display:none;font-size:12px;color:#e24b4a;margin-top:4px">⚠ Street address is required</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Area / Landmark <span style="color:#e24b4a">*</span></label>
+          <input class="form-input" id="faddr2" placeholder="Near Bus Stand" />
+          <div id="err-faddr2" style="display:none;font-size:12px;color:#e24b4a;margin-top:4px">⚠ Area / Landmark is required</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">City <span style="color:#e24b4a">*</span></label>
+            <input class="form-input" id="fcity" placeholder="Erode" />
+            <div id="err-fcity" style="display:none;font-size:12px;color:#e24b4a;margin-top:4px">⚠ City is required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Pincode <span style="color:#e24b4a">*</span></label>
+            <input class="form-input" id="fpincode" placeholder="638001" maxlength="6" />
+            <div id="err-fpincode" style="display:none;font-size:12px;color:#e24b4a;margin-top:4px">⚠ Valid 6-digit pincode is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">State <span style="color:#e24b4a">*</span></label>
+          <input class="form-input" id="fstate" placeholder="Tamil Nadu" />
+          <div id="err-fstate" style="display:none;font-size:12px;color:#e24b4a;margin-top:4px">⚠ State is required</div>
+        </div>
+      </div>
+      <div class="section-card">
+        <h3>Delivery Note <span style="font-size:12px;color:var(--muted);font-weight:400">(optional)</span></h3>
+        <textarea class="form-input" id="fnote" placeholder="Any special delivery instructions..." style="min-height:72px;resize:vertical"></textarea>
+      </div>
+      <button class="primary-btn" onclick="validateStep2()">Continue to Payment →</button>
+      <button class="secondary-btn" onclick="goStep(1)">← Back</button>
+    </div>
+
+    <!-- step 3: payment method -->
+    <div id="step3" style="display:none">
+      <div class="section-card">
+        <h3>Choose Payment Method</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Select how you'd like to pay for your order</p>
+
+        <div style="display:flex;flex-direction:column;gap:10px" id="checkoutPayGrid">
+
+          <div class="checkout-pay-opt" data-pay="COD" onclick="selCheckoutPay(this)">
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="width:44px;height:44px;border-radius:12px;background:#e8f5ee;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">💵</div>
+              <div>
+                <div style="font-size:15px;font-weight:600;color:var(--text)">Cash on Delivery</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:2px">Pay when your order arrives</div>
+              </div>
+              <div class="pay-check" style="margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0"><div class="pay-dot" style="width:12px;height:12px;border-radius:50%;background:transparent"></div></div>
+            </div>
+          </div>
+
+          <div class="checkout-pay-opt" data-pay="UPI" onclick="selCheckoutPay(this)">
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="width:44px;height:44px;border-radius:12px;background:#e6f1fb;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📱</div>
+              <div>
+                <div style="font-size:15px;font-weight:600;color:var(--text)">UPI / GPay</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:2px">Scan QR code &amp; pay instantly</div>
+              </div>
+              <div class="pay-check" style="margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0"><div class="pay-dot" style="width:12px;height:12px;border-radius:50%;background:transparent"></div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <button class="primary-btn" onclick="proceedFromPayment()">Review Order →</button>
+      <button class="secondary-btn" onclick="goStep(2)">← Back</button>
+    </div>
+
+    <!-- step 4: review -->
+    <div id="step4" style="display:none">
+      <div class="section-card">
+        <h3>Order Summary</h3>
+        <div id="reviewItems"></div>
+        <div class="price-breakdown" id="reviewPricing"></div>
+      </div>
+      <div class="section-card">
+        <h3>Delivery To</h3>
+        <div style="font-size:14px;line-height:1.8" id="reviewAddr"></div>
+      </div>
+      <div class="section-card">
+        <h3>Payment Method</h3>
+        <div id="reviewPayMethod" style="display:flex;align-items:center;gap:12px;padding:4px 0">
+          <div id="reviewPayIcon" style="width:44px;height:44px;border-radius:12px;background:#e8f5ee;display:flex;align-items:center;justify-content:center;font-size:22px">💵</div>
+          <div>
+            <div id="reviewPayName" style="font-size:15px;font-weight:600;color:var(--text)">Cash on Delivery</div>
+            <div id="reviewPayDesc" style="font-size:12px;color:var(--muted);margin-top:2px">Pay when your order arrives</div>
+          </div>
+          <button onclick="goStep(3)" style="margin-left:auto;background:none;border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:12px;color:var(--muted);cursor:pointer">Change</button>
+        </div>
+      </div>
+      <button class="primary-btn" onclick="placeOrder()">✓ Place Order</button>
+      <button class="secondary-btn" onclick="goStep(3)">← Edit Payment</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════ CONFIRM PAGE ════════════════════════════ -->
+<div class="page" id="page-confirm">
+  <div class="topnav">
+    <div class="logo" onclick="goHome()">SK<sup style="font-size:13px;vertical-align:super">4</sup><span> Apparels</span></div>
+  </div>
+  <div class="confirm-box">
+    <div class="confirm-icon" id="confirmIcon">✅</div>
+    <div class="confirm-title" id="confirmTitle">Order Placed!</div>
+    <div class="confirm-sub" id="confirmSub">Thank you for shopping at SK⁴ Apparels.<br>We'll contact you shortly on your mobile for delivery.</div>
+    <div class="confirm-id">
+      <strong id="confirmOrderId">Order #SK4-001234</strong>
+      <span style="font-size:12px;color:var(--muted)">Estimated delivery: 2–4 business days</span>
+    </div>
+    <div id="confirmPayInfo" style="margin-bottom:12px"></div>
+    <button class="primary-btn" id="confirmWABtn" onclick="shareOrderWA()">📲 Send Order to Owner via WhatsApp</button>
+    <button class="secondary-btn" onclick="goHome()">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════ WISHLIST PAGE ════════════════════════════ -->
+<div class="page" id="page-wishlist">
+  <div class="topnav">
+    <button class="back-btn" onclick="goBack()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Back</span>
+    </button>
+    <div class="logo" onclick="goHome()">SK<sup style="font-size:13px;vertical-align:super">4</sup><span> Apparels</span></div>
+  </div>
+  <div style="padding:16px">
+    <div class="section-title">Wishlist ❤️</div>
+    <div class="section-sub" id="wishSub">0 saved items</div>
+    <div class="products-grid" id="wishGrid" style="padding:16px 0 40px"></div>
+    <div id="wishEmpty" style="text-align:center;padding:40px;color:var(--muted);display:none">
+      <div style="font-size:48px;margin-bottom:12px">🤍</div>
+      <div style="font-size:16px;font-weight:600">No saved items yet</div>
+      <div style="font-size:13px;margin-top:6px">Tap ❤️ on any product to save it here</div>
+      <button class="primary-btn" style="margin-top:20px;width:auto;padding:12px 28px" onclick="goHome()">Explore</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════ UPI QR MODAL ════════════════════════════ -->
+<div id="upiModal" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.55);align-items:center;justify-content:center">
+  <div style="background:var(--white);border-radius:var(--radius-xl);padding:24px 20px;max-width:320px;width:90%;margin:auto;text-align:center;position:relative">
+    <button onclick="closeUpiModal()" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted)">✕</button>
+    <div style="font-size:20px;margin-bottom:6px">📱</div>
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--green-dark);margin-bottom:4px">Pay via GPay / UPI</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Scan the QR code below to pay</div>
+
+    <!-- QR CODE IMAGE — replace src with your actual GPay QR image URL after uploading -->
+    <div style="background:var(--green-light);border:2px dashed var(--green-mid);border-radius:var(--radius-lg);padding:16px;margin-bottom:14px;position:relative">
+      <img id="upiQRImg" src="" alt="GPay QR Code"
+        style="width:180px;height:180px;object-fit:contain;display:block;margin:0 auto;border-radius:8px"
+        onerror="this.style.display='none';document.getElementById('upiQRPlaceholder').style.display='flex'"
+      />
+      <div id="upiQRPlaceholder" style="width:180px;height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto;gap:8px">
+        <div style="font-size:48px">📷</div>
+        <div style="font-size:12px;color:var(--muted);text-align:center">Upload your GPay QR image and replace the src in the HTML</div>
+      </div>
+      <!-- Owner: upload QR as an image file to GitHub, then replace the src above with the image filename e.g. src="gpay-qr.png" -->
+    </div>
+
+    <div style="background:var(--gold-light);border:1px solid #e8c97a;border-radius:var(--radius);padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--green-dark)">
+      <strong>UPI ID:</strong> <span id="upiIdText" style="font-family:monospace;font-weight:600">yourupi@okaxis</span><br>
+      <span style="font-size:11px;color:var(--muted)">Replace with your actual UPI ID in the HTML</span>
+    </div>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px">After paying, click the button below to confirm your order</div>
+    <button class="primary-btn" style="margin-bottom:8px" onclick="confirmUpiPayment()">✅ I have paid — Confirm Order</button>
+    <button class="secondary-btn" onclick="closeUpiModal()">Cancel</button>
+  </div>
+</div>
+
+<script>
+// ════════ DATA ════════
+const CATEGORIES={
+  Kids:{emoji:'👶',filters:['All','T-Shirts','Shorts','Frocks','Pyjamas','Jackets','Ethnic']},
+  Girls:{emoji:'👗',filters:['All','Frocks','Tops','Leggings','Ethnic','Salwar','Party Wear']},
+  Boys:{emoji:'👦',filters:['All','T-Shirts','Shorts','Trousers','Ethnic','Jackets','School Wear']},
+  Mens:{emoji:'👔',filters:['All','T-Shirts','Shirts','Trousers','Shorts','Ethnic','Formals']},
+  Womens:{emoji:'👘',filters:['All','Sarees','Salwar','Tops','Leggings','Ethnic','Party Wear']},
+  All:{emoji:'🛍️',filters:['All','New Arrivals','Best Sellers','Offers']}
+};
+
+const PRODUCTS=[
+  {id:1,name:'Floral Frock',cat:'Kids',tag:'Girls',emoji:'👗',price:449,old:699,off:36,rating:4.5,reviews:89,inStock:true,sizes:['2Y','3Y','4Y','5Y','6Y'],colors:['👗','🌸','💜','🩷'],highlights:{Fit:'Regular',Material:'Cotton',Pattern:'Floral',Length:'Knee',Waistband:'Elastic'}},
+  {id:2,name:'Cargo Shorts',cat:'Kids',tag:'Boys',emoji:'🩳',price:349,old:499,off:30,rating:4.2,reviews:56,inStock:true,sizes:['2Y','3Y','4Y','5Y','6Y'],colors:['🩳','🟤','⬛','🟢'],highlights:{Fit:'Relaxed',Material:'Cotton Twill',Pattern:'Solid',Length:'Knee',Waistband:'Elastic+Draw'}},
+  {id:3,name:'Kids Pyjama Set',cat:'Kids',tag:'Unisex',emoji:'🌙',price:299,old:450,off:34,rating:4.7,reviews:134,inStock:true,sizes:['2Y','3Y','4Y','5Y','6Y','7Y'],colors:['🌙','⭐','🌈','💙'],highlights:{Fit:'Relaxed',Material:'Soft Cotton',Pattern:'Printed',Length:'Full',Waistband:'Elastic'}},
+  {id:4,name:'Cotton T-Shirt',cat:'Kids',tag:'Boys',emoji:'👕',price:199,old:299,off:33,rating:4.3,reviews:72,inStock:true,sizes:['3Y','4Y','5Y','6Y','7Y','8Y'],colors:['👕','🔵','🔴','🟡'],highlights:{Fit:'Regular',Material:'100% Cotton',Pattern:'Solid',Length:'Regular',Waistband:'N/A'}},
+  {id:5,name:'Ethnic Kurta',cat:'Kids',tag:'Girls',emoji:'🥻',price:599,old:899,off:33,rating:4.8,reviews:201,inStock:true,sizes:['3Y','4Y','5Y','6Y','7Y'],colors:['🥻','🩷','🟠','💛'],highlights:{Fit:'A-Line',Material:'Rayon',Pattern:'Embroidered',Length:'Long',Waistband:'N/A'}},
+  {id:6,name:'Denim Jacket',cat:'Kids',tag:'Unisex',emoji:'🧥',price:799,old:1199,off:33,rating:4.4,reviews:45,inStock:false,sizes:['3Y','4Y','5Y','6Y'],colors:['🧥','💙','⬛'],highlights:{Fit:'Slim',Material:'Denim',Pattern:'Solid',Length:'Hip',Waistband:'N/A'}},
+  {id:7,name:'Girls Leggings',cat:'Girls',tag:'Bottom',emoji:'👖',price:249,old:349,off:29,rating:4.6,reviews:183,inStock:true,sizes:['S','M','L','XL'],colors:['👖','⬛','🔵','🩷'],highlights:{Fit:'Slim',Material:'Lycra',Pattern:'Solid',Length:'Full',Waistband:'Elastic'}},
+  {id:8,name:'Salwar Suit',cat:'Girls',tag:'Ethnic',emoji:'👘',price:899,old:1299,off:31,rating:4.9,reviews:267,inStock:true,sizes:['S','M','L','XL','XXL'],colors:['👘','💜','🟢','🔴'],highlights:{Fit:'Regular',Material:'Georgette',Pattern:'Printed',Length:'Full',Waistband:'Drawstring'}},
+  {id:9,name:'Casual Top',cat:'Girls',tag:'Top',emoji:'👚',price:349,old:499,off:30,rating:4.3,reviews:91,inStock:true,sizes:['XS','S','M','L','XL'],colors:['👚','⬜','🩷','🟡'],highlights:{Fit:'Regular',Material:'Rayon',Pattern:'Solid',Length:'Hip',Waistband:'N/A'}},
+  {id:10,name:'Party Frock',cat:'Girls',tag:'Party',emoji:'🌟',price:1199,old:1799,off:33,rating:4.8,reviews:156,inStock:true,sizes:['S','M','L','XL'],colors:['🌟','🩷','💜','🔴'],highlights:{Fit:'Flared',Material:'Net+Satin',Pattern:'Embellished',Length:'Knee',Waistband:'Elastic'}},
+  {id:11,name:'Men\'s Polo',cat:'Mens',tag:'T-Shirt',emoji:'👕',price:499,old:799,off:38,rating:4.5,reviews:312,inStock:true,sizes:['S','M','L','XL','XXL'],colors:['👕','⬛','🔵','⬜','🟢'],highlights:{Fit:'Slim',Material:'Pique Cotton',Pattern:'Solid',Length:'Regular',Waistband:'N/A'}},
+  {id:12,name:'Formal Shirt',cat:'Mens',tag:'Shirts',emoji:'👔',price:699,old:999,off:30,rating:4.6,reviews:189,inStock:true,sizes:['S','M','L','XL','XXL'],colors:['👔','⬜','🔵','⬛'],highlights:{Fit:'Regular',Material:'Cotton Blend',Pattern:'Checks',Length:'Regular',Waistband:'N/A'}},
+  {id:13,name:'Track Pant',cat:'Mens',tag:'Bottom',emoji:'🩱',price:449,old:649,off:31,rating:4.4,reviews:78,inStock:true,sizes:['S','M','L','XL','XXL'],colors:['🩱','⬛','🔵','🩶'],highlights:{Fit:'Regular',Material:'Polyester',Pattern:'Solid',Length:'Full',Waistband:'Elastic+Draw'}},
+  {id:14,name:'Ethnic Veshti',cat:'Mens',tag:'Ethnic',emoji:'🥻',price:599,old:899,off:33,rating:4.7,reviews:144,inStock:true,sizes:['Free'],colors:['🥻','⬜','🟡','🔴'],highlights:{Fit:'Drape',Material:'Cotton',Pattern:'Border',Length:'Full',Waistband:'Wraparound'}},
+  {id:15,name:'Kanjivaram Saree',cat:'Womens',tag:'Sarees',emoji:'🌺',price:2499,old:3999,off:38,rating:4.9,reviews:421,inStock:true,sizes:['Free'],colors:['🌺','🔴','💜','🟢','🟡'],highlights:{Fit:'Drape',Material:'Silk Cotton',Pattern:'Zari Border',Length:'6 Yards',Waistband:'N/A'}},
+  {id:16,name:'Anarkali Suit',cat:'Womens',tag:'Ethnic',emoji:'👑',price:1299,old:1999,off:35,rating:4.8,reviews:234,inStock:true,sizes:['S','M','L','XL','XXL'],colors:['👑','🩷','💜','🟢','🔴'],highlights:{Fit:'Flared',Material:'Georgette',Pattern:'Embroidered',Length:'Floor',Waistband:'Drawstring'}},
+  {id:17,name:'Kurti Top',cat:'Womens',tag:'Tops',emoji:'👗',price:599,old:899,off:33,rating:4.6,reviews:178,inStock:true,sizes:['S','M','L','XL','XXL'],colors:['👗','🩷','🟠','💜','⬜'],highlights:{Fit:'A-Line',Material:'Rayon',Pattern:'Printed',Length:'Knee',Waistband:'N/A'}},
+  {id:18,name:'Churidar Set',cat:'Womens',tag:'Salwar',emoji:'🎀',price:999,old:1499,off:33,rating:4.7,reviews:167,inStock:false,sizes:['S','M','L','XL'],colors:['🎀','💙','🟢','🩷'],highlights:{Fit:'Regular',Material:'Cotton',Pattern:'Block Print',Length:'Full',Waistband:'Drawstring'}},
+];
+
+// ════════ STATE ════════
+let currentPage='page-home';
+let pageHistory=['page-home'];
+let currentCategory='Kids';
+let currentProduct=null;
+let currentSwipeIdx=0;
+let currentColorIdx=0;
+let selectedSize='';
+let cart=[];
+let wishlist=[];
+let touchStartX=0;
+
+// ════════ NAVIGATION ════════
+function goPage(id){
+  document.getElementById(currentPage).classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  if(pageHistory[pageHistory.length-1]!==id) pageHistory.push(id);
+  currentPage=id;
+  window.scrollTo(0,0);
+  updateCartBadges();
+}
+function goBack(){
+  pageHistory.pop();
+  const prev=pageHistory[pageHistory.length-1]||'page-home';
+  document.getElementById(currentPage).classList.remove('active');
+  document.getElementById(prev).classList.add('active');
+  currentPage=prev;
+  window.scrollTo(0,0);
+}
+function goHome(){
+  pageHistory=['page-home'];
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-home').classList.add('active');
+  currentPage='page-home';
+  window.scrollTo(0,0);
+}
+
+// ════════ CATEGORY ════════
+function openCategory(cat){
+  currentCategory=cat;
+  document.getElementById('colTitle').textContent=cat+' Collection';
+  const prods=cat==='All'?PRODUCTS:PRODUCTS.filter(p=>p.cat===cat);
+  document.getElementById('colSub').textContent=prods.length+' products';
+  document.getElementById('colBackLabel').textContent='Home';
+  renderFilters(cat);
+  renderProducts(prods);
+  goPage('page-collection');
+}
+function renderFilters(cat){
+  const filters=CATEGORIES[cat]?.filters||['All'];
+  document.getElementById('filterRow').innerHTML=filters.map((f,i)=>`<div class="filter-chip ${i===0?'active':''}" onclick="filterProducts(this,'${f}')">${f}</div>`).join('');
+}
+function filterProducts(el,filter){
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  const prods=filter==='All'?(currentCategory==='All'?PRODUCTS:PRODUCTS.filter(p=>p.cat===currentCategory)):PRODUCTS.filter(p=>(currentCategory==='All'||p.cat===currentCategory)&&p.tag===filter);
+  renderProducts(prods);
+}
+function renderProducts(prods){
+  document.getElementById('productsGrid').innerHTML=prods.map(p=>`
+    <div class="prod-card" onclick="openProduct(${p.id})">
+      <div class="prod-img-wrap">
+        <div class="prod-img" style="background:${getBg(p.cat)}">${p.emoji}</div>
+        ${p.off?`<div class="offer-tag">-${p.off}%</div>`:''}
+        <button class="wish-btn ${wishlist.includes(p.id)?'wished':''}" onclick="event.stopPropagation();toggleWishById(${p.id},this)">
+          <span class="heart">${wishlist.includes(p.id)?'❤️':'🤍'}</span>
+        </button>
+        ${!p.inStock?`<div class="oos-overlay"><div class="oos-tag">Out of Stock</div></div>`:''}
+      </div>
+      <div class="prod-info">
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-price">
+          <span class="price-now">₹${p.price}</span>
+          <span class="price-old">₹${p.old}</span>
+          <span class="price-off">${p.off}% off</span>
+        </div>
+        <div class="prod-rating"><span class="stars">${starStr(p.rating)}</span><span class="rating-count">(${p.reviews})</span></div>
+      </div>
+    </div>`).join('');
+}
+function getBg(cat){const m={Kids:'#fce8f3',Girls:'#ede8fc',Boys:'#e8f0fc',Mens:'#e8fce8',Womens:'#fce8ee',All:'#fce8d5'};return m[cat]||'#e8f5ee';}
+function starStr(r){const f=Math.floor(r);const h=r-f>=0.5?1:0;return '★'.repeat(f)+(h?'½':'')+'☆'.repeat(5-f-h);}
+
+// ════════ PRODUCT ════════
+function openProduct(id){
+  currentProduct=PRODUCTS.find(p=>p.id===id);
+  if(!currentProduct)return;
+  currentSwipeIdx=0;
+  currentColorIdx=0;
+  selectedSize='';
+  renderProduct();
+  goPage('page-product');
+}
+function renderProduct(){
+  const p=currentProduct;
+  document.getElementById('pdName').textContent=p.name;
+  document.getElementById('pdPrice').textContent='₹'+p.price;
+  document.getElementById('pdOld').textContent='₹'+p.old;
+  document.getElementById('pdOff').textContent=p.off+'% OFF';
+  document.getElementById('pdStars').textContent=starStr(p.rating);
+  document.getElementById('pdRatingCount').textContent='('+p.reviews+' reviews)';
+
+  // swiper
+  const track=document.getElementById('swiperTrack');
+  track.innerHTML=p.colors.map(c=>`<div class="swiper-slide" style="background:${getBg(p.cat)}">${c}</div>`).join('');
+  track.style.transform='translateX(0)';
+  const dots=document.getElementById('swiperDots');
+  dots.innerHTML=p.colors.map((_,i)=>`<div class="swiper-dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('');
+  setupSwipe();
+
+  // color thumbs
+  document.getElementById('colorThumbs').innerHTML=p.colors.map((c,i)=>`<div class="color-thumb ${i===0?'active':''}" onclick="goSlide(${i})" style="background:${getBg(p.cat)}">${c}</div>`).join('');
+
+  // sizes
+  document.getElementById('pdSizes').innerHTML=p.sizes.map(s=>`<div class="size-pill" onclick="selSize(this,'${s}')">${s}</div>`).join('');
+
+  // highlights
+  document.getElementById('pdHighlights').innerHTML=Object.entries(p.highlights).map(([k,v])=>`<div class="highlight-item"><div class="hl-label">${k}</div><div class="hl-value">${v}</div></div>`).join('');
+
+  // similar
+  const sim=PRODUCTS.filter(x=>x.cat===p.cat&&x.id!==p.id).slice(0,6);
+  document.getElementById('similarRow').innerHTML=sim.map(x=>`<div class="sim-card" onclick="openProduct(${x.id})"><div class="sim-img">${x.emoji}</div><div class="sim-info"><div class="sim-name">${x.name}</div><div class="sim-price">₹${x.price}</div></div></div>`).join('');
+
+  // reviews
+  const revs=[{name:'Priya R.',stars:5,text:'Excellent quality! The fabric is so soft and my daughter loved it.',date:'2 days ago'},{name:'Karthik M.',stars:4,text:'Good product, fits perfectly. Delivery was quick too!',date:'1 week ago'},{name:'Meena S.',stars:5,text:'Beautiful colour, exactly as shown. Very happy with my purchase.',date:'2 weeks ago'}];
+  document.getElementById('reviewsWrap').innerHTML=revs.map(r=>`<div class="review-card"><div class="rev-header"><span class="rev-name">${r.name}</span><span class="rev-stars">${'★'.repeat(r.stars)}</span></div><div class="rev-text">${r.text}</div><div class="rev-date">${r.date}</div></div>`).join('');
+
+  // wish state
+  const wished=wishlist.includes(p.id);
+  document.getElementById('stickyWish').querySelector('.heart').textContent=wished?'❤️':'🤍';
+  document.getElementById('stickyWish').classList.toggle('wished',wished);
+}
+
+function goSlide(i){
+  currentSwipeIdx=i;
+  const track=document.getElementById('swiperTrack');
+  track.style.transform=`translateX(-${i*100}%)`;
+  document.querySelectorAll('.swiper-dot').forEach((d,idx)=>d.classList.toggle('active',idx===i));
+  document.querySelectorAll('.color-thumb').forEach((d,idx)=>d.classList.toggle('active',idx===i));
+}
+function setupSwipe(){
+  const wrap=document.getElementById('swiperWrap');
+  wrap.ontouchstart=e=>{touchStartX=e.touches[0].clientX;};
+  wrap.ontouchend=e=>{
+    const dx=e.changedTouches[0].clientX-touchStartX;
+    const total=currentProduct.colors.length;
+    if(dx<-40&&currentSwipeIdx<total-1)goSlide(currentSwipeIdx+1);
+    if(dx>40&&currentSwipeIdx>0)goSlide(currentSwipeIdx-1);
+  };
+}
+
+function selSize(el,s){
+  document.querySelectorAll('.size-pill').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  selectedSize=s;
+}
+let selectedPayMethod='';
+function selPay(el){
+  document.querySelectorAll('.pay-opt').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  selectedPayMethod=el.dataset.pay;
+}
+
+// ════════ CART ════════
+function addToCart(){
+  if(!selectedSize&&currentProduct.sizes.length>1){showToast('Please select a size first!');return;}
+  const existing=cart.find(i=>i.id===currentProduct.id&&i.size===selectedSize);
+  if(existing){existing.qty++;showToast('Quantity updated in cart!');}
+  else{cart.push({...currentProduct,size:selectedSize||currentProduct.sizes[0],qty:1});showToast('Added to cart! 🛒');}
+  updateCartBadges();
+}
+function buyNow(){addToCart();goPage('page-checkout');renderCheckoutStep(1);}
+function updateCartBadges(){
+  const c=cart.reduce((a,i)=>a+i.qty,0);
+  ['cartBadge','cartBadge2','cartBadge3'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.textContent=c;el.classList.toggle('show',c>0);}
+  });
+}
+function renderCart(){
+  const items=document.getElementById('cartItems');
+  const empty=document.getElementById('cartEmpty');
+  const summary=document.getElementById('cartSummary');
+  if(!cart.length){items.innerHTML='';summary.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  items.innerHTML=cart.map((it,idx)=>`
+    <div class="section-card" style="margin-bottom:10px">
+      <div class="order-item" style="border:none;padding:0">
+        <div class="order-thumb">${it.emoji}</div>
+        <div style="flex:1">
+          <div class="order-name">${it.name}</div>
+          <div class="order-meta">Size: ${it.size} | Qty: ${it.qty}</div>
+          <div style="display:flex;gap:10px;margin-top:8px">
+            <button onclick="changeQty(${idx},-1)" style="border:1px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;background:#fff;font-size:16px">−</button>
+            <span style="font-size:14px;font-weight:600;line-height:28px">${it.qty}</span>
+            <button onclick="changeQty(${idx},1)" style="border:1px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;background:#fff;font-size:16px">+</button>
+            <button onclick="removeFromCart(${idx})" style="border:none;background:none;color:#e24b4a;font-size:13px;cursor:pointer;margin-left:6px">Remove</button>
+          </div>
+        </div>
+        <div class="order-price">₹${it.price*it.qty}</div>
+      </div>
+    </div>`).join('');
+  const sub=cart.reduce((a,i)=>a+i.price*i.qty,0);
+  const del=sub>=499?0:49;
+  summary.innerHTML=`
+    <div class="section-card">
+      <div class="price-row-item"><span>Subtotal</span><span>₹${sub}</span></div>
+      <div class="price-row-item"><span>Delivery</span><span>${del===0?'FREE ✓':'₹'+del}</span></div>
+      <div class="price-row-item total"><span>Total</span><span>₹${sub+del}</span></div>
+    </div>
+    <button class="primary-btn" onclick="goPage('page-checkout');renderCheckoutStep(1)">Proceed to Checkout →</button>`;
+}
+function changeQty(idx,d){
+  cart[idx].qty+=d;
+  if(cart[idx].qty<1)cart.splice(idx,1);
+  renderCart();updateCartBadges();
+}
+function removeFromCart(idx){cart.splice(idx,1);renderCart();updateCartBadges();}
+
+// ════════ WISHLIST ════════
+function toggleWish(){
+  if(!currentProduct)return;
+  const id=currentProduct.id;
+  toggleWishById(id,null);
+  const wished=wishlist.includes(id);
+  document.getElementById('stickyWish').querySelector('.heart').textContent=wished?'❤️':'🤍';
+  document.getElementById('stickyWish').classList.toggle('wished',wished);
+}
+function toggleWishById(id,btn){
+  const idx=wishlist.indexOf(id);
+  if(idx>=0){wishlist.splice(idx,1);showToast('Removed from wishlist');}
+  else{wishlist.push(id);showToast('Saved to wishlist ❤️');}
+  if(btn){btn.querySelector('.heart').textContent=wishlist.includes(id)?'❤️':'🤍';btn.classList.toggle('wished',wishlist.includes(id));}
+}
+function renderWishlist(){
+  const grid=document.getElementById('wishGrid');
+  const empty=document.getElementById('wishEmpty');
+  document.getElementById('wishSub').textContent=wishlist.length+' saved items';
+  if(!wishlist.length){grid.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  const prods=PRODUCTS.filter(p=>wishlist.includes(p.id));
+  grid.innerHTML=prods.map(p=>`
+    <div class="prod-card" onclick="openProduct(${p.id})">
+      <div class="prod-img-wrap">
+        <div class="prod-img" style="background:${getBg(p.cat)}">${p.emoji}</div>
+        ${p.off?`<div class="offer-tag">-${p.off}%</div>`:''}
+        <button class="wish-btn wished" onclick="event.stopPropagation();toggleWishById(${p.id},this);renderWishlist()"><span class="heart">❤️</span></button>
+      </div>
+      <div class="prod-info">
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-price"><span class="price-now">₹${p.price}</span><span class="price-old">₹${p.old}</span></div>
+      </div>
+    </div>`).join('');
+}
+
+// ════════ CHECKOUT ════════
+function renderCheckoutStep(step){
+  ['step1','step2','step3','step4'].forEach((s,i)=>{
+    const el=document.getElementById(s);
+    if(el) el.style.display=i+1===step?'block':'none';
+  });
+  ['s1','s2','s3','s4'].forEach((s,i)=>{
+    const el=document.getElementById(s);
+    if(!el)return;
+    el.classList.toggle('active',i+1===step);
+    el.classList.toggle('done',i+1<step);
+    el.textContent=i+1<step?'✓':i+1;
+  });
+  ['sl1','sl2','sl3'].forEach((s,i)=>{
+    const el=document.getElementById(s);
+    if(el) el.classList.toggle('done',step>i+1);
+  });
+}
+function goStep(n){
+  renderCheckoutStep(n);
+  if(n===4)renderReview();
+  window.scrollTo(0,0);
+}
+function validateStep1(){
+  let ok=true;
+  const checks=[
+    {id:'fname', errId:'err-fname', test: v=>v.trim().length>0},
+    {id:'lname', errId:'err-lname', test: v=>v.trim().length>0},
+    {id:'fphone',errId:'err-fphone',test: v=>v.replace(/\D/g,'').length>=10},
+  ];
+  checks.forEach(c=>{
+    const val=document.getElementById(c.id).value;
+    const err=document.getElementById(c.errId);
+    const pass=c.test(val);
+    err.style.display=pass?'none':'block';
+    document.getElementById(c.id).style.borderColor=pass?'':'#e24b4a';
+    if(!pass)ok=false;
+  });
+  if(!ok){showToast('Please fill all required fields');return;}
+  goStep(2);
+}
+function validateStep2(){
+  let ok=true;
+  const checks=[
+    {id:'faddr1', errId:'err-faddr1', test: v=>v.trim().length>0},
+    {id:'faddr2', errId:'err-faddr2', test: v=>v.trim().length>0},
+    {id:'fcity',  errId:'err-fcity',  test: v=>v.trim().length>0},
+    {id:'fpincode',errId:'err-fpincode',test: v=>/^\d{6}$/.test(v.trim())},
+    {id:'fstate', errId:'err-fstate', test: v=>v.trim().length>0},
+  ];
+  checks.forEach(c=>{
+    const val=document.getElementById(c.id).value;
+    const err=document.getElementById(c.errId);
+    const pass=c.test(val);
+    err.style.display=pass?'none':'block';
+    document.getElementById(c.id).style.borderColor=pass?'':'#e24b4a';
+    if(!pass)ok=false;
+  });
+  if(!ok){showToast('Please fill all required delivery fields');return;}
+  goStep(3);
+}
+function proceedFromPayment(){
+  if(!selectedPayMethod){
+    showToast('Please select a payment method first!');
+    // shake the payment options to draw attention
+    const grid=document.getElementById('checkoutPayGrid');
+    grid.style.animation='none';
+    grid.offsetHeight;
+    grid.style.animation='shake .4s ease';
+    return;
+  }
+  goStep(4);
+}
+function selCheckoutPay(el){
+  document.querySelectorAll('.checkout-pay-opt').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  selectedPayMethod=el.dataset.pay;
+}
+function renderReview(){
+  const sub=cart.reduce((a,i)=>a+i.price*i.qty,0);
+  const del=sub>=499?0:49;
+  document.getElementById('reviewItems').innerHTML=cart.map(it=>`<div class="order-item"><div class="order-thumb">${it.emoji}</div><div><div class="order-name">${it.name}</div><div class="order-meta">Size: ${it.size} | Qty: ${it.qty}</div></div><div class="order-price">₹${it.price*it.qty}</div></div>`).join('');
+  document.getElementById('reviewPricing').innerHTML=`<div class="price-row-item"><span>Subtotal</span><span>₹${sub}</span></div><div class="price-row-item"><span>Delivery</span><span>${del===0?'FREE':'₹'+del}</span></div><div class="price-row-item total"><span>Total</span><span>₹${sub+del}</span></div>`;
+  const fn=document.getElementById('fname').value||'Customer';
+  const addr=[document.getElementById('faddr1').value,document.getElementById('faddr2').value,document.getElementById('fcity').value,document.getElementById('fpincode').value,document.getElementById('fstate').value].filter(Boolean).join(', ');
+  document.getElementById('reviewAddr').innerHTML=`<strong>${fn} ${document.getElementById('lname').value}</strong><br>${document.getElementById('fphone').value}<br>${addr}`;
+
+  // show selected payment summary in review
+  const payMap={
+    COD:{icon:'💵',bg:'#e8f5ee',name:'Cash on Delivery',desc:'Pay when your order arrives'},
+    UPI:{icon:'📱',bg:'#e6f1fb',name:'UPI / GPay',desc:'Scan QR code & pay instantly'},
+    Bank:{icon:'🏦',bg:'#faeeda',name:'Bank Transfer',desc:"We'll send bank details via WhatsApp"},
+    Online:{icon:'💳',bg:'#fce8ee',name:'Online Payment',desc:'Credit / Debit card or Netbanking'}
+  };
+  const pm=payMap[selectedPayMethod]||payMap['COD'];
+  document.getElementById('reviewPayIcon').textContent=pm.icon;
+  document.getElementById('reviewPayIcon').style.background=pm.bg;
+  document.getElementById('reviewPayName').textContent=pm.name;
+  document.getElementById('reviewPayDesc').textContent=pm.desc;
+}
+let lastOrderId='';
+function placeOrder(){
+  if(!selectedPayMethod){showToast('Please select a payment method!');goStep(3);return;}
+  const id='SK4-'+Math.floor(100000+Math.random()*900000);
+  lastOrderId=id;
+  document.getElementById('confirmOrderId').textContent='Order #'+id;
+
+  if(selectedPayMethod==='UPI'){
+    // Show UPI QR modal instead of going to confirm directly
+    document.getElementById('upiModal').style.display='flex';
+    return;
+  }
+
+  // COD / Bank / Online — go straight to confirm
+  finishOrder();
+}
+
+function finishOrder(){
+  const isCOD = selectedPayMethod==='COD';
+  document.getElementById('confirmIcon').textContent = isCOD ? '✅' : '💳';
+  document.getElementById('confirmTitle').textContent = isCOD ? 'Order Placed! Pay on Delivery' : 'Order Confirmed!';
+  document.getElementById('confirmSub').innerHTML = isCOD
+    ? 'Your order is confirmed! <br>Keep <strong>cash ready</strong> when our delivery arrives.'
+    : `Payment via <strong>${selectedPayMethod}</strong> noted. We will verify and ship your order shortly.`;
+
+  const payInfoEl=document.getElementById('confirmPayInfo');
+  if(isCOD){
+    payInfoEl.innerHTML=`<div style="background:#e8f5ee;border:1px solid #5DCAA5;border-radius:12px;padding:12px 14px;font-size:13px;color:#0F6E56;margin-bottom:4px">💵 <strong>Cash on Delivery</strong> — Pay when you receive the parcel</div>`;
+  } else if(selectedPayMethod==='Bank Transfer'){
+    payInfoEl.innerHTML=`<div style="background:#e6f1fb;border:1px solid #85B7EB;border-radius:12px;padding:12px 14px;font-size:13px;color:#0C447C;margin-bottom:4px">🏦 <strong>Bank Transfer</strong> — We will send you our bank details via WhatsApp</div>`;
+  } else {
+    payInfoEl.innerHTML='';
+  }
+
+  cart=[];updateCartBadges();
+  goPage('page-confirm');
+
+  // Auto-send WhatsApp notification to owner for COD
+  if(isCOD){
+    setTimeout(()=>autoNotifyOwner(),800);
+  }
+}
+
+function autoNotifyOwner(){
+  const fn=document.getElementById('fname').value||'Customer';
+  const ln=document.getElementById('lname').value||'';
+  const ph=document.getElementById('fphone').value||'N/A';
+  const addr=[document.getElementById('faddr1').value,document.getElementById('faddr2').value,document.getElementById('fcity').value,document.getElementById('fpincode').value].filter(Boolean).join(', ');
+  const items=cart.length?cart.map(i=>`${i.name} x${i.qty} (Size:${i.size})`).join(', '):'See order';
+  const msg=`🛍 *New Order – SK⁴ Apparels*\n\n*Order ID:* ${lastOrderId}\n*Payment:* Cash on Delivery 💵\n\n*Customer:* ${fn} ${ln}\n*Mobile:* ${ph}\n*Address:* ${addr}\n\n*Items:* ${items}\n\n_Please confirm delivery._`;
+  // Replace 91XXXXXXXXXX with your actual WhatsApp number
+  window.open('https://wa.me/91XXXXXXXXXX?text='+encodeURIComponent(msg),'_blank');
+}
+
+function openUpiModal(){document.getElementById('upiModal').style.display='flex';}
+function closeUpiModal(){document.getElementById('upiModal').style.display='none';}
+function confirmUpiPayment(){
+  closeUpiModal();
+  selectedPayMethod='UPI';
+  document.getElementById('confirmIcon').textContent='✅';
+  document.getElementById('confirmTitle').textContent='Payment Received!';
+  document.getElementById('confirmSub').innerHTML='Thank you for paying via <strong>GPay / UPI</strong>.<br>Your order will be shipped after verification.';
+  document.getElementById('confirmPayInfo').innerHTML=`<div style="background:#e8f5ee;border:1px solid #5DCAA5;border-radius:12px;padding:12px 14px;font-size:13px;color:#0F6E56;margin-bottom:4px">📱 <strong>UPI Payment Done</strong> — Owner will verify and confirm shipment</div>`;
+  cart=[];updateCartBadges();
+  goPage('page-confirm');
+  setTimeout(()=>autoNotifyOwner(),800);
+}
+
+function shareOrderWA(){
+  const fn=document.getElementById('fname').value||'Customer';
+  const ph=document.getElementById('fphone').value||'N/A';
+  const addr=[document.getElementById('faddr1').value,document.getElementById('faddr2').value,document.getElementById('fcity').value,document.getElementById('fpincode').value].filter(Boolean).join(', ');
+  const msg=`🛍 *New Order – SK⁴ Apparels*\n\n*Order ID:* ${lastOrderId}\n*Payment:* ${selectedPayMethod}\n\n*Customer:* ${fn}\n*Mobile:* ${ph}\n*Address:* ${addr}\n\n_Customer confirmed order._`;
+  window.open('https://wa.me/91XXXXXXXXXX?text='+encodeURIComponent(msg),'_blank');
+}
+function shareWA(){
+  if(!currentProduct)return;
+  const msg=`Check out *${currentProduct.name}* at SK⁴ Apparels for just ₹${currentProduct.price}! 🛍`;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+// ════════ TOAST ════════
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ════════ PAGE HOOKS ════════
+document.getElementById('page-cart').addEventListener('transitionend',()=>{});
+const origGoPage=goPage;
+window.goPage=function(id){
+  origGoPage(id);
+  if(id==='page-cart')renderCart();
+  if(id==='page-wishlist')renderWishlist();
+};
+</script>
+</body>
+</html>
